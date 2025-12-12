@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSCH-V | Gaming & Desarrollo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0f0f0f;
+            --color-surface: #1a1a1a;
+            --color-surface-light: #2a2a2a;
+            --color-text: #f5f5f7;
+            --color-text-secondary: #a1a1a6;
+            --color-accent: #8a2be2;
+            --color-accent-hover: #6a1bb2;
+            --color-accent2: #00d9ff;
+            --color-game-1: #ffaa00;
+            --color-game-2: #0099ff;
+            --color-game-3: #cc66ff;
+            --color-game-4: #00ff88;
+            --border-radius: 16px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 48px;
+            --spacing-xl: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shine {
+            0% { background-position: -100px; }
+            100% { background-position: 200px; }
+        }
+
+        /* Clases de animación */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .float-animation {
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* Header y Navegación */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(15, 15, 15, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: var(--spacing-sm) 0;
+            transition: all 0.3s ease;
+        }
+
+        .header-scrolled {
+            background-color: rgba(15, 15, 15, 0.98);
+            padding: var(--spacing-xs) 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo i {
+            color: var(--color-accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-md);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s;
+            padding: var(--spacing-xs) 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background-color: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-cta:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+
+        .nav-cta:hover::before {
+            left: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--color-text);
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .mobile-menu-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: var(--spacing-xl);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(138, 43, 226, 0.15), rgba(255, 255, 255, 0) 50%);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(to right, #ffffff, #8a2be2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin: 0 auto var(--spacing-lg);
+            animation: fadeIn 1.5s ease-out 0.3s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .hero-buttons .btn {
+            animation: fadeIn 1.5s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 15px 32px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--color-accent);
+            color: white;
+            border: 1px solid var(--color-accent);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-text);
+            border: 1px solid var(--color-surface-light);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-surface-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Secciones generales */
+        section {
+            padding: var(--spacing-xl) 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            background: linear-gradient(to right, #ffffff, #8a2be2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--color-text-secondary);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--spacing-xl);
+        }
+
+        /* Sección Sobre Mí */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .about-text h3 {
+            font-size: 28px;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-accent);
+        }
+
+        .about-text p {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* Sección Videos */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .video-card {
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .video-thumbnail {
+            height: 180px;
+            background-color: var(--color-surface-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.1);
+        }
+
+        .video-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(138, 43, 226, 0.9);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .video-card:hover .video-play {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-info {
+            padding: var(--spacing-md);
+        }
+
+        .video-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            margin-top: var(--spacing-sm);
+        }
+
+        /* Sección Juegos Favoritos Mejorada */
+        .games-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .games-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .games-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            z-index: 1;
+        }
+
+        .games-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: var(--spacing-sm);
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+
+        .games-subtitle {
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Filtros de juegos */
+        .games-filters {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            color: var(--color-text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn:hover {
+            color: var(--color-text);
+            border-color: var(--color-accent);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+
+        /* Grid de juegos */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        /* Tarjeta de juego mejorada */
+        .game-card {
+            background: linear-gradient(145deg, rgba(26, 26, 26, 0.8), rgba(15, 15, 15, 0.9));
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
+            background-size: 200% 200%;
+            animation: shine 3s infinite linear;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .game-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 6px 12px;
+            background: var(--color-accent);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 20px;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-image-container {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .game-card:hover .game-image {
+            transform: scale(1.1);
+        }
+
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: var(--spacing-md);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
+
+        .play-overlay-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .game-card:hover .play-overlay-btn {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .play-overlay-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-content {
+            padding: var(--spacing-md);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .game-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .game-icon.clash-royale { background: linear-gradient(135deg, var(--color-game-1), #ff6600); }
+        .game-icon.free-fire { background: linear-gradient(135deg, var(--color-game-2), #0066cc); }
+        .game-icon.brawl-stars { background: linear-gradient(135deg, var(--color-game-3), #9933cc); }
+        .game-icon.fortnite { background: linear-gradient(135deg, var(--color-game-4), #00cc66); }
+
+        .game-info {
+            flex-grow: 1;
+        }
+
+        .game-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--color-text);
+        }
+
+        .game-genre {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        .game-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .game-rating i {
+            color: var(--color-game-1);
+            font-size: 14px;
+        }
+
+        .game-description {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+            flex-grow: 1;
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .game-stat {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .game-card:hover .game-stat {
+            transform: translateY(-2px);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .game-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: auto;
+        }
+
+        .game-btn {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .game-btn.primary {
+            background: var(--color-accent);
+            color: white;
+            border: 2px solid var(--color-accent);
+        }
+
+        .game-btn.primary:hover {
+            background: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+
+        .game-btn.secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .game-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Sección Proyectos de Programación */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .project-card {
+            background: var(--color-surface);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--color-accent2);
+        }
+
+        .project-header {
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent2) 100%);
+        }
+
+        .project-title {
+            font-size: 22px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin: var(--spacing-sm) 0;
+        }
+
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--color-text);
+        }
+
+        .project-content {
+            padding: var(--spacing-md);
+        }
+
+        .project-desc {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.6;
+        }
+
+        .project-links {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .project-link {
+            padding: 8px 16px;
+            background: var(--color-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .project-link:hover {
+            background: var(--color-accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .project-link.github {
+            background: #333;
+        }
+
+        .project-link.github:hover {
+            background: #555;
+        }
+
+        /* Sección Contacto (Redes Sociales) */
+        .social-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            transform: translateX(5px);
+            background-color: var(--color-surface-light);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-icon {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .youtube { color: #ff0000; }
+        .twitch { color: #9146ff; }
+        .twitter { color: #1da1f2; }
+        .discord { color: #5865f2; }
+        .kick { color: #00ff22;}
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--color-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--color-surface);
+            padding: var(--spacing-xl) 0 var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: var(--spacing-xl);
+            position: relative;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-accent);
+            transition: width 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-text);
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .copyright {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            width: 100%;
+            text-align: center;
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .games-title {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .games-filters {
+                overflow-x: auto;
+                padding-bottom: 10px;
+                justify-content: flex-start;
+            }
+            
+            .game-actions {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .scroll-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .section-subtitle {
+                font-size: 18px;
+            }
+            
+            .games-title {
+                font-size: 28px;
+            }
+            
+            .game-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+  
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <header id="mainHeader">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-gamepad"></i>
+                <span>DSCH-V</span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#about">Sobre Mí</a></li>
+                <li><a href="#videos">Videos</a></li>
+                <li><a href="#games">Juegos Favoritos</a></li>
+                <li><a href="#projects">Proyectos</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+            
+            <button class="nav-cta" onclick="location.href='#contact'">Unirse al canal</button>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <h1>DSCH-V</h1>
+            <p>Gamer y Desarrollador. Creando contenido de gaming entretenido y proyectos de programación innovadores.</p>
+            <div class="hero-buttons">
+                <a href="#games" class="btn btn-primary">
+                    <i class="fas fa-gamepad"></i> Mis Juegos
+                </a>
+                <a href="#projects" class="btn btn-secondary">
+                    <i class="fas fa-code"></i> Proyectos
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">Sobre Mí</h2>
+            <p class="section-subtitle fade-in">Gamer apasionado y desarrollador en constante aprendizaje</p>
+            
+            <div class="about-content">
+                <div class="about-image slide-left">
+                    <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Setup Gaming">
+                </div>
+                <div class="about-text slide-right">
+                    <h3>Hola, soy DSCH-V</h3>
+                    <p>Soy un gamer apasionado y desarrollador que disfruta creando tanto contenido de entretenimiento como proyectos de programación. Mi canal de gaming se centra en ofrecer gameplays de calidad y momentos divertidos.</p>
+                    <p>Cuando no estoy jugando, me dedico a desarrollar proyectos web y aplicaciones, combinando mi pasión por la tecnología con la creatividad.</p>
+                    <p>Creo en la importancia de la comunidad y en compartir conocimientos, por eso siempre estoy abierto a colaboraciones y nuevos desafíos.</p>
+                    <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-md);">
+                        <a href="#games" class="btn btn-primary">
+                            <i class="fas fa-gamepad"></i> Juegos Favoritos
+                        </a>
+                        <a href="#projects" class="btn btn-secondary">
+                            <i class="fas fa-laptop-code"></i> Ver Proyectos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="videos" style="background-color: var(--color-surface);">
+        <div class="container">
+            <h2 class="section-title fade-in">Videos Destacados</h2>
+            <p class="section-subtitle fade-in">Mis mejores gameplays y momentos épicos</p>
+            
+            <div class="videos-grid">
+                <div class="video-card fade-in" data-video-id="TU_VIDEO_ID_1">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Gameplay">
+                        <div class="video-play">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Gameplay Épico: Victoria Imposible</h3>
+                        <p>Revive uno de los momentos más intensos en mi canal, con una victoria contra todo pronóstico.</p>
+                        <div class="video-meta">
+                            <span><i class="far fa-clock"></i> 24:35</span>
+                            <span><i class="far fa-eye"></i> 15.2K vistas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card fade-in" data-video-id="TU_VIDEO_ID_2">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Tutorial">
+                        <div class="video-play">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Guía Completa: Mejora tu Gameplay</h3>
+                        <p>Tutorial detallado con consejos y estrategias para llevar tu juego al siguiente nivel.</p>
+                        <div class="video-meta">
+                            <span><i class="far fa-clock"></i> 32:18</span>
+                            <span><i class="far fa-eye"></i> 22.7K vistas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card fade-in" data-video-id="TU_VIDEO_ID_3">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Stream">
+                        <div class="video-play">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Stream Highlights: Mejores Momentos</h3>
+                        <p>Compilación de los momentos más divertidos y emocionantes de mis streams en vivo.</p>
+                        <div class="video-meta">
+                            <span><i class="far fa-clock"></i> 18:42</span>
+                            <span><i class="far fa-eye"></i> 31.5K vistas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: var(--spacing-xl);">
+                <a href="https://www.youtube.com/@DSCH-V" target="_blank" class="btn btn-primary fade-in">
+                    <i class="fab fa-youtube"></i> Ver Más en YouTube
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="games" class="games-section">
+        <div class="container">
+            <div class="games-header">
+                <h2 class="games-title pulse-animation">Juegos Favoritos</h2>
+                <p class="games-subtitle">Los juegos que más disfruto y en los que soy más competitivo</p>
+            </div>
+            
+           
+            <div class="games-filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="mobile">Móvil</button>
+                <button class="filter-btn" data-filter="battle-royale">Battle Royale</button>
+                <button class="filter-btn" data-filter="strategy">Estrategia</button>
+                <button class="filter-btn" data-filter="multiplayer">Multijugador</button>
+            </div>
+            
+           
+            <div class="games-grid">
+                <!-- Clash Royale -->
+                <div class="game-card fade-in" data-category="mobile strategy multiplayer">
+                    <div class="game-badge">Top 1</div>
+                    <div class="game-image-container">
+                        <img src="https://vidabytes.com/wp-content/uploads/2022/09/Como-recuperar-cuanta-de-clash-royale.jpeg" alt="Clash Royale" class="game-image">
+                        <div class="game-overlay">
+                            <button class="play-overlay-btn">
+                                <i class="fas fa-play"></i> Ver Gameplay
+                            </button>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-header">
+                            <div class="game-icon clash-royale">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="game-info">
+                                <h3 class="game-title">Clash Royale</h3>
+                                <p class="game-genre">Estrategia • Cartas • PvP</p>
+                                <div class="game-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span style="margin-left: 8px; font-size: 12px;">4.7</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="game-description">Juego de estrategia en tiempo real donde construyes un mazo de cartas con personajes de Clash of Clans y compites en duelos intensos 1v1 y 2v2.</p>
+                        
+                        <div class="game-stats">
+                            <div class="game-stat">
+                                <div class="stat-label">Nivel</div>
+                                <div class="stat-value" style="color: var(--color-game-1);">11</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-label">Trofeos</div>
+                                <div class="stat-value" style="color: var(--color-game-1);">7,633</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-label">Victorias</div>
+                                <div class="stat-value" style="color: var(--color-game-1);">1,304</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-label">Cartas</div>
+                                <div class="stat-value" style="color: var(--color-game-1);">117/121</div>
+                            </div>
+                        </div>
+                        
+                        <div class="game-actions">
+                            <a href="https://link.clashroyale.com/invite/friend/es?tag=9VPVU90YR&token=snthkjt3&platform=android" target="_blank" class="game-btn primary">
+                                <i class="fas fa-gamepad"></i> Jugar Ahora
+                            </a>
+                            <a href="https://www.youtube.com/@DSCH-V" target="_blank" class="game-btn secondary">
+                                <i class="fas fa-video"></i> Gameplays
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Free Fire -->
+                <div class="game-card fade-in" data-category="mobile battle-royale multiplayer">
+                    <div class="game-badge" style="background: var(--color-game-2);">Competitivo</div>
+                    <div class="game-image-container">
+                        <img src="https://assamtribune.com/h-upload/2022/10/28/1430258-garena-free-fire-max.jpg" alt="Free Fire" class="game-image">
+                        <div class="game-overlay">
+                            <button class="play-overlay-btn">
+                                <i class="fas fa-play"></i> Ver Gameplay
+                            </button>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-header">
+                            <div class="game-icon free-fire">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="game-info">
+                                <h3 class="game-title">Free Fire</h3>
+                                <p class="game-genre">Battle Royale • Supervivencia</p>
+                                <div class="game-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span style="margin-left: 8px; font-size: 12px;">4.0</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="game-description">Battle royale de 50 jugadores donde debes sobrevivir en una isla, buscar armas y ser el último en pie. Partidas rápidas de 10 minutos llenas de acción.</p>
+                        
+                        <div class="game-stats">
+                            <div class="game-stat">
+                                <div class="stat-label">Rango</div>
+                                <div class="stat-value" style="color: var(--color-game-2);">Heroico Elite</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-label">K/D Ratio</div>
+                                <div class="stat-value" style="color: var(--color-game-2);">1,92</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-label">Victorias</div>
+                                <div class="stat-value" style="color: var(--color-game-2);">2</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-label">Jugadas</div>
+                                <div class="stat-value" style="color: var(--color-game-2);">50</div>
+                            </div>
+                        </div>
+                        
+                        <div class="game-actions">
+                            <a href="https://play.google.com/store/apps/details?id=com.dts.freefireth" target="_blank" class="game-btn primary">
+                                <i class="fas fa-crosshairs"></i> Unirse a Batalla
+                            </a>
+                            <a href="https://www.youtube.com/@DSCH-V" target="_blank" class="game-btn secondary">
+                                <i class="fas fa-users"></i> Squad
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Brawl Stars -->
+                <div class="game-card fade-in" data-category="mobile multiplayer">
+                    <div class="game-badge" style="background: var(--color-game-3);">Divertido</div>
+                    <div class="game-image-container">
+                        <img src="https://wallpapers.com/images/hd/womens-day-montage-brawl-stars-4k-s286n6ddxmjizuhg.jpg" alt="Brawl Stars" class="game-image">
+                        <div class="game-overlay">
+                            <button class="play-overlay-btn">
+                                <i class="fas fa-play"></i> Ver Gameplay
+                            </button>
+                        </div>
+                    </div>
+                    <div class="game-content">
+                        <div class="game-header">
+                            <div class="game-icon brawl-stars">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <div class="game-info">
+                                <h3 class="game-title">Brawl Stars</h3>
+                                <p class="game-genre">Arena • Multijugador</p>
+                                <div class="game-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span style="margin-left: 8px; font-size: 12px;">4.9</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="game-description">Juego de arena multijugador donde controlas personajes únicos (brawlers) en diferentes modos de juego rápido y divertido. Perfecto para jugar con amigos.</p>
+                        
+                        <div class="game-stats">
+                            <div class="game-stat">
+                                <div class="stat-label">Trofeos</div>
+                                <div class="stat-value" style="color: var(--color-game-3);">32</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-label">Brawlers</div>
+                                <div class="stat-value" style="color: var(--color-game-3);">3/97</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-label">Nivel</div>
+                                <div class="stat-value" style="color: var(--color-game-3);">1</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-label">Victorias 3v3</div>
+                                <div class="stat-value" style="color: var(--color-game-3);">2</div>
+                            </div>
+                        </div>
+                        
+                        <div class="game-actions">
+                            <a href="https://play.google.com/store/apps/details?id=com.supercell.brawlstars" target="_blank" class="game-btn primary">
+                                <i class="fas fa-users"></i> Brawlear
+                            </a>
+                            <a href="https://www.youtube.com/@DSCH-V" target="_blank" class="game-btn secondary">
+                                <i class="fas fa-trophy"></i> Torneos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+               
+               
+            </div>
+            
+            <div style="text-align: center; margin-top: var(--spacing-xl);">
+                <a href="https://www.youtube.com/@DSCH-V" target="_blank" class="btn btn-primary fade-in">
+                    <i class="fas fa-gamepad"></i> Ver Todos los Gameplays
+                </a>
+            </div>
+        </div>
+    </section>
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title fade-in">Proyectos de Programación</h2>
+            <p class="section-subtitle fade-in">Aplicaciones y herramientas que he desarrollado</p>
+            
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <h3 class="project-title">Stream Dashboard</h3>
+                        <p>Panel de control para streamers</p>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML/CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">API Twitch</span>
+                            <span class="tech-tag">Node.js</span>
+                        </div>
+                        <p class="project-desc">Dashboard interactivo para streamers que muestra estadísticas en tiempo real, alertas de chat y control de escenas.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Demo
+                            </a>
+                            <a href="#" class="project-link github">
+                                <i class="fab fa-github"></i> Código
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <h3 class="project-title">Game Library Manager</h3>
+                        <p>Organizador de biblioteca de juegos</p>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">IGDB API</span>
+                            <span class="tech-tag">Tailwind CSS</span>
+                        </div>
+                        <p class="project-desc">Aplicación web para organizar y catalogar tu biblioteca de videojuegos con información detallada de cada título.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Demo
+                            </a>
+                            <a href="#" class="project-link github">
+                                <i class="fab fa-github"></i> Código
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <h3 class="project-title">Discord Bot Gaming</h3>
+                        <p>Bot para comunidades gaming</p>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Discord.py</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Heroku</span>
+                        </div>
+                        <p class="project-desc">Bot de Discord con funciones para comunidades gaming: torneos, estadísticas, búsqueda de jugadores y más.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Demo
+                            </a>
+                            <a href="#" class="project-link github">
+                                <i class="fab fa-github"></i> Código
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact" style="background-color: var(--color-surface);">
+        <div class="container">
+            <h2 class="section-title fade-in">Conéctate Conmigo</h2>
+            <p class="section-subtitle fade-in">Sígueme en mis redes sociales y únete a la comunidad</p>
+            
+            <div class="social-links">
+                <a href="https://www.youtube.com/@DSCH-V" target="_blank" class="social-link">
+                    <div class="social-icon youtube">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div>
+                        <h3>YouTube</h3>
+                        <p>Gameplays, tutoriales y contenido exclusivo</p>
+                    </div>
+                </a>
+                
+                <a href="https://www.twitch.tv/dschv" target="_blank" class="social-link">
+                    <div class="social-icon twitch">
+                        <i class="fab fa-twitch"></i>
+                    </div>
+                    <div>
+                        <h3>Twitch</h3>
+                        <p>Streamings en vivo regularmente</p>
+                    </div>
+                </a>
+                
+                <a href="https://twitter.com/VerganoSantiago" target="_blank" class="social-link">
+                    <div class="social-icon twitter">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <div>
+                        <h3>Twitter</h3>
+                        <p>Actualizaciones y anuncios del canal</p>
+                    </div>
+                </a>
+                
+                <a href="https://kick.com/dschv" target="_blank" class="social-link">
+                    <div class="social-icon kick">
+                        <i class="fab fa-kickstarter"></i>
+                    </div>
+                    <div>
+                        <h3>Kick</h3>
+                        <p>Stream en vivo y contenido adicional</p>
+                    </div>
+                </a>
+                
+                <a href="https://discord.com/channels/@dschv_61841" target="_blank" class="social-link">
+                    <div class="social-icon discord">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                    <div>
+                        <h3>Discord</h3>
+                        <p>Únete a mi comunidad de gaming</p>
+                    </div>
+                </a>
+                
+                <a href="https://github.com/santisonia06/" target="_blank" class="social-link">
+                    <div class="social-icon" style="color: #f5f5f7;">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <div>
+                        <h3>GitHub</h3>
+                        <p>Proyectos de código abierto</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-gamepad"></i> DSCH-V | Gaming & Dev
+                </div>
+                
+                <ul class="footer-links">
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#about">Sobre Mí</a></li>
+                    <li><a href="#videos">Videos</a></li>
+                    <li><a href="#games">Juegos</a></li>
+                    <li><a href="#projects">Proyectos</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                </ul>
+            </div>
+            
+            <div class="copyright">
+                &copy; <span id="year"></span> DSCH-V. Todos los derechos reservados. Gamer y Desarrollador.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const videoConfig = {
+            'TU_VIDEO_ID_1': 'https://www.youtube.com/watch?v=TU_VIDEO_ID_1',
+            'TU_VIDEO_ID_2': 'https://www.youtube.com/watch?v=TU_VIDEO_ID_2',
+            'TU_VIDEO_ID_3': 'https://www.youtube.com/watch?v=TU_VIDEO_ID_3'
+        };
+        
+      
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.backgroundColor = 'var(--color-bg)';
+                navLinks.style.padding = 'var(--spacing-md)';
+                navLinks.style.borderTop = '1px solid rgba(255, 255, 255, 0.05)';
+                navLinks.style.gap = 'var(--spacing-md)';
+            }
+        });
+        
+       
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    if(window.innerWidth <= 768) {
+                        navLinks.style.display = 'none';
+                    }
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+       
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in, .slide-left, .slide-right').forEach(el => {
+            observer.observe(el);
+        });
+        
+       
+        const header = document.getElementById('mainHeader');
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+            
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+  
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+      
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const gameCards = document.querySelectorAll('.game-card');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+               
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+              
+                button.classList.add('active');
+                
+                const filter = button.getAttribute('data-filter');
+                
+                gameCards.forEach(card => {
+                    const categories = card.getAttribute('data-category');
+                    
+                    if (filter === 'all' || categories.includes(filter)) {
+                        card.style.display = 'flex';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+        
+      
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+        });
+        
+        document.querySelectorAll('.btn, .nav-cta, .social-link, .project-card, .game-btn').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                el.style.transform = 'translateY(-2px)';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'translateY(0)';
+            });
+        });
+        
+    
+        document.querySelectorAll('.video-card').forEach((card) => {
+            const videoId = card.getAttribute('data-video-id');
+            
+           
+            const playBtn = card.querySelector('.video-play');
+            if (playBtn && videoConfig[videoId]) {
+                playBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    window.open(videoConfig[videoId], '_blank');
+                });
+            }
+            
+       
+            card.addEventListener('click', function() {
+                if (videoConfig[videoId]) {
+                    window.open(videoConfig[videoId], '_blank');
+                }
+            });
+        });
+        
+       
+        document.querySelectorAll('.play-overlay-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open('https://www.youtube.com/@DSCH-V', '_blank');
+            });
+        });
+        
+     
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in, .slide-left, .slide-right').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('visible');
+                }
+            });
+            
+           
+            document.querySelectorAll('.stat-value').forEach(stat => {
+                const originalValue = stat.textContent;
+                stat.textContent = '0';
+                
+                setTimeout(() => {
+                    let current = 0;
+                    const target = isNaN(originalValue) ? originalValue : parseInt(originalValue.replace(/,/g, ''));
+                    const increment = target / 30;
+                    
+                    if (typeof target === 'number') {
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            stat.textContent = Math.floor(current).toLocaleString();
+                        }, 30);
+                    } else {
+                        stat.textContent = originalValue;
+                    }
+                }, 500);
+            });
+        });
+
+      
+    </script>
+</body>
+</html>
